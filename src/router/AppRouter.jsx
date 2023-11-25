@@ -3,6 +3,7 @@ import { HomePage, GamesPage, JudgesPage, OneGamePage } from "../pages";
 import { NavBar, FooterComponent } from "../components";
 import VotesPage from "../pages/VotesPage";
 import { OneJudgePage } from "../pages/OneJudgePage";
+import { EditionPage } from "../pages/EditionPage";
 
 export const AppRouter = () => {
     return (
