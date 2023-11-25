@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 export const NavBar = () => {
     return (
-        <nav className="flex justify-between px-10 py-3 font-bold bg-zinc-900 text-white">
+        <nav className="flex justify-between px-10 py-3 font-bold bg-black text-white">
             <div className="font-bold">
                 <img src="/gamejam.jpeg" alt="logo" className="w-20" />
             </div>
