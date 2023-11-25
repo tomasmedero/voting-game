@@ -1,16 +1,16 @@
-import { BrowserRouter } from 'react-router-dom'
-import { AppRouter } from './router'
+import { BrowserRouter } from "react-router-dom";
+import { AppRouter } from "./router";
 
+// TODO falta el store
+// Crear los usuarios y el token JWT
+// Colocar el CRUD de los juegos
 
-//TODO falta el store
 export const VotingApp = () => {
-  return (
-    <>
-
-        <BrowserRouter>
-          <AppRouter />
-        </BrowserRouter>
-
-    </>
-  )
-}
+    return (
+        <>
+            <BrowserRouter>
+                <AppRouter />
+            </BrowserRouter>
+        </>
+    );
+};
