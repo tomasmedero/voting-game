@@ -1,13 +1,11 @@
-/* eslint-disable react/prop-types */
-
-import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { useParams, Navigate, Link } from "react-router-dom"
 
 export const OneGamePage = () => {
     const { id } = useParams()
-
-    const [game, setGame] = useState([])
+    const [game, setGame] = useState({})
     const [isLoading, setIsLoading] = useState(true)
+    const [shouldRedirect, setShouldRedirect] = useState(false)
 
     useEffect(() => {
         const fetchGames = async () => {
@@ -20,6 +18,34 @@ export const OneGamePage = () => {
         }
         fetchGames()
     }, [id])
+
+    const handleDelete = () => {
+        if (
+            window.confirm(
+                "¿Estás seguro que deseas eliminar este juego? Esta acción no se puede deshacer"
+            )
+        ) {
+            fetch(`http://localhost:3000/api/games/`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id: id }),
+            })
+                .then((response) => response.json())
+                .then(() => {
+                    console.log("El juego ha sido eliminado correctamente")
+                    setShouldRedirect(true)
+                })
+                .catch((error) => {
+                    console.error("Error:", error)
+                })
+        }
+    }
+
+    if (shouldRedirect) {
+        return <Navigate to="/games" />
+    }
 
     const { name, genre, edition } = game
 
@@ -43,21 +69,14 @@ export const OneGamePage = () => {
                 </p>
                 <Link
                     to={`/games/update/${id}`}
-                    className="text-black hover:py-4 hover:px-7 hover:text-white bg-cyan-400 hover:bg-cyan-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 transition-all"
+                    className="text-black hover:text-white bg-cyan-400 hover:bg-cyan-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 transition-all"
                 >
                     Modificar
                 </Link>
+
                 <button
-                    onClick={() => {
-                        if (
-                            window.confirm(
-                                "Are you sure you want to delete this game?"
-                            )
-                        ) {
-                            console.log("Eliminado")
-                        }
-                    }}
-                    className="text-white hover:py-4 hover:px-7 hover:text-black bg-pink-700 hover:bg-pink-400 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 transition-all"
+                    className="text-white hover:text-black bg-red-700 hover:bg-red-400 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 transition-all"
+                    onClick={handleDelete}
                 >
                     Eliminar
                 </button>

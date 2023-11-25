@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { MainTitle } from "../components"
-import { useParams } from "react-router-dom"
+import { useParams, Navigate } from "react-router-dom"
 
 export const UpdateGamePage = () => {
     const { id } = useParams()
@@ -31,6 +31,8 @@ export const UpdateGamePage = () => {
         setGameData({ ...gameData, [e.target.name]: e.target.value })
     }
 
+    const [shouldRedirect, setShouldRedirect] = useState(false)
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         const response = await fetch(`http://localhost:3000/api/games`, {
@@ -42,11 +44,14 @@ export const UpdateGamePage = () => {
         })
         if (response.ok) {
             console.log("Juego actualizado correctamente")
-            //ACA DEBERIAS PONERLE UN REDIRECT A LA PAGINA DE JUEGOS, se hace con un Navigate de react router dom
+            setShouldRedirect(true)
         } else {
-            console.log("Error al actualizar el juego")
+            console.error("Error al actualizar el juego")
             //Ponele un error, si queres podemos hacer el sweetalert2
         }
+    }
+    if (shouldRedirect) {
+        return <Navigate to="/games" />
     }
 
     return (

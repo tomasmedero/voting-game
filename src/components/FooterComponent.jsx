@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom"
 export const FooterComponent = () => {
     return (
-        <footer className="bg-zinc-900 text-white px-10 py-3">
+        <footer className="bg-zinc-900 text-white px-10 py-3 mt-10">
             <div className="footer-links flex justify-evenly mb-5">
                 <NavLink to="/" className="hover:underline">
                     Inicio
