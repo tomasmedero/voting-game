@@ -1,11 +1,14 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import { HomePage, GamesPage, JudgesPage, OneGamePage } from "../pages";
-import { NavBar, FooterComponent } from "../components";
-import VotesPage from "../pages/VotesPage";
-import { OneJudgePage } from "../pages/OneJudgePage";
-import { EditionPage } from "../pages/EditionPage";
-import { AddNewGame } from "../pages/AddNewGame";
-import UpdateGame from "../pages/UpdateGame";
+import { Navigate, Route, Routes } from "react-router-dom"
+import {
+    HomePage,
+    GamesPage,
+    JudgesPage,
+    OneGamePage,
+    AddNewGame,
+    OneJudgePage,
+    UpdateGamePage,
+} from "../pages"
+import { NavBar, FooterComponent } from "../components"
 
 export const AppRouter = () => {
     return (
@@ -16,19 +19,21 @@ export const AppRouter = () => {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/games" element={<GamesPage />} />
                     <Route path="/games/new" element={<AddNewGame />} />
-                    <Route path="/games/update/:id" element={<UpdateGame />} />
+                    <Route
+                        path="/games/update/:id"
+                        element={<UpdateGamePage />}
+                    />
                     <Route path="/games/:id" element={<OneGamePage />} />
                     <Route path="/judges" element={<JudgesPage />} />
                     <Route
-                        path="/judges/judge/:id"
+                        path="/judges/judge/:id/:name"
                         element={<OneJudgePage />}
                     />
-                    <Route path="/votes" element={<VotesPage />} />
-                    <Route path="/edition" element={<EditionPage />} />
+
                     <Route path="/*" element={<Navigate to="/" />} />
                 </Routes>
             </div>
             <FooterComponent />
         </div>
-    );
-};
+    )
+}

@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
-import { MainTitle } from "../components";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { MainTitle } from "../components"
+import { Link } from "react-router-dom"
 
 export const JudgesPage = () => {
-    const [judges, setJudges] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [judges, setJudges] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const fetchGames = async () => {
-            const response = await fetch("http://localhost:3000/api/judges");
-            const data = await response.json();
-            setJudges(data);
-            setIsLoading(false);
-        };
-        fetchGames();
-    }, []);
+            const response = await fetch("http://localhost:3000/api/judges")
+            const data = await response.json()
+            setJudges(data)
+            setIsLoading(false)
+        }
+        fetchGames()
+    }, [])
 
     return (
         <>
@@ -32,7 +32,7 @@ export const JudgesPage = () => {
                             className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-4 hover:shadow-lg"
                         >
                             <Link
-                                to={`/judges/judge/${judge._id}`}
+                                to={`/judges/judge/${judge._id}/${judge.name}`}
                                 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
                             >
                                 <img
@@ -56,5 +56,5 @@ export const JudgesPage = () => {
                 </div>
             </div>
         </>
-    );
-};
+    )
+}

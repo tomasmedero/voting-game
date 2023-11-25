@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"
 
 export const NavBar = () => {
     return (
@@ -31,23 +31,7 @@ export const NavBar = () => {
                         Jueces
                     </NavLink>
                 </li>
-                <li>
-                    <NavLink
-                        className="hover:bg-green-700 hover:text-black transition-all hover:p-3 rounded-md"
-                        to="/votes"
-                    >
-                        Votos
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink
-                        className="hover:bg-green-700 hover:text-black transition-all hover:p-3 rounded-md"
-                        to="/edition"
-                    >
-                        Ediciones
-                    </NavLink>
-                </li>
             </ul>
         </nav>
-    );
-};
+    )
+}

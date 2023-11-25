@@ -1,10 +1,5 @@
-import React from 'react'
-import './styles.css'
-import ReactDOM from 'react-dom/client'
-import { VotingApp } from './VotingApp'
+import "./styles.css";
+import ReactDOM from "react-dom/client";
+import { VotingApp } from "./VotingApp";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <VotingApp />
-  </React.StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById("root")).render(<VotingApp />);

@@ -1,22 +1,53 @@
-import { useState } from "react";
-import { MainTitle } from "../components";
+import { useState, useEffect } from "react"
+import { MainTitle } from "../components"
+import { useParams } from "react-router-dom"
 
-const UpdateGame = () => {
+export const UpdateGamePage = () => {
+    const { id } = useParams()
     const [gameData, setGameData] = useState({
-        title: "",
-        description: "",
+        id: "",
+        name: "",
         genre: "",
-        releaseYear: "",
-    });
+        edition: "",
+    })
+
+    useEffect(() => {
+        const fetchGames = async () => {
+            const response = await fetch(
+                `http://localhost:3000/api/games/${id}`
+            )
+            const data = await response.json()
+            setGameData({
+                id: id,
+                name: data.name,
+                genre: data.genre,
+                edition: data.edition,
+            })
+        }
+        fetchGames()
+    }, [id])
 
     const handleChange = (e) => {
-        setGameData({ ...gameData, [e.target.name]: e.target.value });
-    };
+        setGameData({ ...gameData, [e.target.name]: e.target.value })
+    }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // TODO: agregar la lógica de UPDATE del juego
-    };
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const response = await fetch(`http://localhost:3000/api/games`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(gameData),
+        })
+        if (response.ok) {
+            console.log("Juego actualizado correctamente")
+            //ACA DEBERIAS PONERLE UN REDIRECT A LA PAGINA DE JUEGOS, se hace con un Navigate de react router dom
+        } else {
+            console.log("Error al actualizar el juego")
+            //Ponele un error, si queres podemos hacer el sweetalert2
+        }
+    }
 
     return (
         <div className="flex justify-center items-center max-h-screen">
@@ -30,9 +61,9 @@ const UpdateGame = () => {
                         Título:
                         <input
                             type="text"
-                            id="title"
-                            name="title"
-                            value={gameData.title}
+                            id="name"
+                            name="name"
+                            value={gameData.name}
                             onChange={handleChange}
                             className="px-2 py-1 border border-gray-300 rounded"
                         />
@@ -52,8 +83,8 @@ const UpdateGame = () => {
                         Edición:
                         <input
                             type="text"
-                            id="releaseYear"
-                            name="releaseYear"
+                            id="edition"
+                            name="edition"
                             value={gameData.edition}
                             onChange={handleChange}
                             className="px-2 py-1 border border-gray-300 rounded"
@@ -68,7 +99,5 @@ const UpdateGame = () => {
                 </form>
             </div>
         </div>
-    );
-};
-
-export default UpdateGame;
+    )
+}

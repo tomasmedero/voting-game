@@ -1,30 +1,28 @@
 /* eslint-disable react/prop-types */
 
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { Link, useParams } from "react-router-dom"
 
 export const OneGamePage = () => {
-    const { id } = useParams();
+    const { id } = useParams()
 
-    const [game, setGame] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [game, setGame] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const fetchGames = async () => {
             const response = await fetch(
                 `http://localhost:3000/api/games/${id}`
-            );
-            const data = await response.json();
-            setGame(data);
-            setIsLoading(false);
-        };
-        fetchGames();
-    }, [id]);
+            )
+            const data = await response.json()
+            setGame(data)
+            setIsLoading(false)
+        }
+        fetchGames()
+    }, [id])
 
-    const { name, genre, edition } = game;
-    // TODO: Eliminar un juego
-    // http://localhost:3000/api/games/
-    // El id va por el body del JSON. No por url creo oka
+    const { name, genre, edition } = game
+
     return (
         <>
             {isLoading && <span className="text-3xl">Estoy cargando...</span>}
@@ -56,7 +54,7 @@ export const OneGamePage = () => {
                                 "Are you sure you want to delete this game?"
                             )
                         ) {
-                            // TODO: agregar la lógica para hacer el DELETE del juego
+                            console.log("Eliminado")
                         }
                     }}
                     className="text-white hover:py-4 hover:px-7 hover:text-black bg-pink-700 hover:bg-pink-400 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 transition-all"
@@ -65,5 +63,5 @@ export const OneGamePage = () => {
                 </button>
             </div>
         </>
-    );
-};
+    )
+}

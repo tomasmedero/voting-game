@@ -1,106 +1,73 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { MainTitle } from "../components";
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { MainTitle } from "../components"
 
 export const OneJudgePage = () => {
-    const { id } = useParams();
-    const [vote, setVote] = useState(null);
-    const [game, setGame] = useState(null);
+    const { id, name } = useParams()
+    const [games, setGames] = useState([])
+    const [votes, setVotes] = useState([])
 
     useEffect(() => {
         const fetchVote = async () => {
-            const response = await fetch(
+            const responseJudgeVotes = await fetch(
                 `http://localhost:3000/api/judges/judge/${id}`
-            );
-            const data = await response.json();
-            setVote(data[0]);
+            )
+            const dataJudgeVotes = await responseJudgeVotes.json()
 
-            const gameID = data[0].game; // Use the game ID from the vote data
-            const responseGame = await fetch(
-                `http://localhost:3000/api/games/${gameID}`
-            ); // Fetch the game data using the game ID
-            const dataGame = await responseGame.json();
-            setGame(dataGame);
-        };
-        // TODO: Arreglar esto, esta es la página de votación, no sé bien donde colocarla
-        // Si colocarla en la parte de los jueces o en la parte de los juegos
-        // Acá debería traer la votación realizada por el juez a UN SOLO juego.
-        // Por ejemplo Megaman X5 fue votador por Marcos y Luis nada más.
-        // Con sus respectivos puntajes de jugabilidad, arte, sonido y afinidad temática.
+            const gamePromises = dataJudgeVotes.map(async (vote) => {
+                if (vote.game) {
+                    const responseGame = await fetch(
+                        `http://localhost:3000/api/games/${vote.game}`
+                    )
+                    return responseGame.json()
+                }
+            })
 
-        fetchVote();
-    }, [id]);
+            const gamesFetch = await Promise.all(gamePromises)
+            setGames(gamesFetch)
 
-    if (!vote || !game) {
-        return <span className="text-3xl">Estoy cargando...</span>;
+            const votesPromises = dataJudgeVotes.map(async (vote) => {
+                if (vote.game) {
+                    const responseVote =
+                        (vote.artPoints +
+                            vote.gameplayPoints +
+                            vote.soundPoints +
+                            vote.themePoints) /
+                        4
+                    const idGameVote = vote.game
+                    return { totalVotes: responseVote, gameId: idGameVote }
+                }
+            })
+            const votesFetch = await Promise.all(votesPromises)
+            setVotes(votesFetch)
+        }
+
+        fetchVote()
+    }, [id])
+
+    if (!games) {
+        return <span className="text-3xl">Estoy cargando...</span>
     }
 
     return (
         <>
-            <MainTitle title={"Voto"} />
+            <MainTitle title={`Voto del Juez ${name}`} />
             <div className="flex">
-                <div className="text-center w-[50%] mx-auto">
-                    <p className="text-3xl font-bold mb-2">
-                        La votación del juez:
-                    </p>
-                    <p className="text-xl mb-1">
-                        Jugabilidad:{" "}
-                        <span
-                            className={`text-2xl font-bold ${
-                                vote.gameplayPoints < 4
-                                    ? "text-red-600"
-                                    : vote.gameplayPoints < 6
-                                    ? "text-orange-600"
-                                    : "text-green-600"
-                            }`}
+                {games.map((game) => {
+                    const vote = votes.find((v) => v.gameId === game._id)
+                    return (
+                        <div
+                            key={game._id}
+                            className="text-center w-[50%] mx-auto"
                         >
-                            {vote.gameplayPoints}
-                        </span>
-                    </p>
-                    <p className="text-xl mb-1">
-                        Arte:{" "}
-                        <span
-                            className={`text-2xl font-bold ${
-                                vote.artPoints < 4
-                                    ? "text-red-600"
-                                    : vote.artPoints < 6
-                                    ? "text-orange-600"
-                                    : "text-green-600"
-                            }`}
-                        >
-                            {vote.artPoints}
-                        </span>
-                    </p>
-                    <p className="text-xl mb-1">
-                        Sonido:{" "}
-                        <span
-                            className={`text-2xl font-bold ${
-                                vote.soundPoints < 4
-                                    ? "text-red-600"
-                                    : vote.soundPoints < 6
-                                    ? "text-orange-600"
-                                    : "text-green-600"
-                            }`}
-                        >
-                            {vote.soundPoints}
-                        </span>
-                    </p>
-                    <p className="text-xl mb-1">
-                        Afinidad a la temática:{" "}
-                        <span
-                            className={`text-2xl font-bold ${
-                                vote.themePoints < 4
-                                    ? "text-red-600"
-                                    : vote.themePoints < 6
-                                    ? "text-orange-600"
-                                    : "text-green-600"
-                            }`}
-                        >
-                            {vote.themePoints}
-                        </span>
-                    </p>
-                </div>
+                            <p className="text-3xl font-bold mb-2">
+                                {game.name}
+                            </p>
+                            <p>Promedio Voto :{vote.totalVotes} </p>
+                        </div>
+                    )
+                })}
             </div>
         </>
-    );
-};
+    )
+}

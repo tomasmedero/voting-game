@@ -1,8 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"
 export const FooterComponent = () => {
     return (
         <footer className="bg-zinc-900 text-white px-10 py-3">
-            <div className="footer-links flex justify-between mb-5">
+            <div className="footer-links flex justify-evenly mb-5">
                 <NavLink to="/" className="hover:underline">
                     Inicio
                 </NavLink>
@@ -12,9 +12,6 @@ export const FooterComponent = () => {
                 <NavLink to="/judges" className="hover:underline">
                     Jueces
                 </NavLink>
-                <NavLink to="/votes" className="hover:underline">
-                    Votos
-                </NavLink>
             </div>
             <div className="footer-info">
                 <p className="text-center">
@@ -23,5 +20,5 @@ export const FooterComponent = () => {
                 </p>
             </div>
         </footer>
-    );
-};
+    )
+}

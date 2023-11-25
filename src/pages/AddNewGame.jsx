@@ -1,33 +1,31 @@
-import { useState } from "react";
-import { MainTitle } from "../components";
+import { useState } from "react"
+import { MainTitle } from "../components"
 
 export const AddNewGame = () => {
-    const [name, setName] = useState("");
-    const [genre, setGenre] = useState("");
-    const [members, setMembers] = useState([]);
-    const [edition, setEdition] = useState("");
+    const [name, setName] = useState("")
+    const [genre, setGenre] = useState("")
+    const [members, setMembers] = useState([])
+    const [edition, setEdition] = useState("")
 
     const handleNameChange = (e) => {
-        setName(e.target.value);
-    };
+        setName(e.target.value)
+    }
 
     const handleGenreChange = (e) => {
-        setGenre(e.target.value);
-    };
+        setGenre(e.target.value)
+    }
 
     const handleMembersChange = (e) => {
-        setMembers(e.target.value.split(","));
-    };
+        setMembers(e.target.value.split(","))
+    }
 
     const handleEditionChange = (e) => {
-        setEdition(e.target.value);
-    };
+        setEdition(e.target.value)
+    }
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        // TODO: Agregar la lógica para que el CRUD funcione a la API
-        // Todo esto está hecho con Copilot oka :)
-    };
+        e.preventDefault()
+    }
 
     return (
         <>
@@ -84,5 +82,5 @@ export const AddNewGame = () => {
                 </div>
             </div>
         </>
-    );
-};
+    )
+}
