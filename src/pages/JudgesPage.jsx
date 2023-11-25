@@ -20,10 +20,12 @@ export const JudgesPage = () => {
         <>
             <MainTitle title="Jueces" />
             <div>
-                {isLoading && (
-                    <span className="text-3xl">Estoy cargando...</span>
-                )}
                 <div className="flex flex-wrap justify-center">
+                    {isLoading && (
+                        <span className="text-3xl text-center">
+                            Estoy cargando...
+                        </span>
+                    )}
                     {judges.map((judge) => (
                         <div
                             key={judge._id}

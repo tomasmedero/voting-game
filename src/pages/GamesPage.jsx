@@ -19,7 +19,7 @@ export const GamesPage = () => {
     return (
         <>
             <MainTitle title="Juegos" />
-            <div className="flex">
+            <div className="flex flex-col items-center">
                 {isLoading && (
                     <span className="text-3xl">Estoy cargando...</span>
                 )}
@@ -49,6 +49,14 @@ export const GamesPage = () => {
                         </li>
                     ))}
                 </ul>
+                <div>
+                    <Link
+                        to={"/games/new/"}
+                        className="text-white hover:py-5 hover:px-7 hover:text-black bg-emerald-700 hover:bg-emerald-400 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 transition-all"
+                    >
+                        Agregar nuevo juego
+                    </Link>
+                </div>
             </div>
         </>
     );

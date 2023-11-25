@@ -4,6 +4,8 @@ import { NavBar, FooterComponent } from "../components";
 import VotesPage from "../pages/VotesPage";
 import { OneJudgePage } from "../pages/OneJudgePage";
 import { EditionPage } from "../pages/EditionPage";
+import { AddNewGame } from "../pages/AddNewGame";
+import UpdateGame from "../pages/UpdateGame";
 
 export const AppRouter = () => {
     return (
@@ -13,6 +15,8 @@ export const AppRouter = () => {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/games" element={<GamesPage />} />
+                    <Route path="/games/new" element={<AddNewGame />} />
+                    <Route path="/games/update/:id" element={<UpdateGame />} />
                     <Route path="/games/:id" element={<OneGamePage />} />
                     <Route path="/judges" element={<JudgesPage />} />
                     <Route

@@ -1,24 +1,12 @@
-/* eslint-disable react/prop-types */
-import { useHistory } from "react-router-dom";
+// TODO: Acá crear la edicion de los juegos. Algunos botones que aparezcan con los números de las ediciones de la
+
 import { MainTitle } from "../components";
 
-export const EditionPage = ({ games }) => {
-    const history = useHistory();
-
-    // Get a list of all unique edition years
-    const editions = [...new Set(games.map((game) => game.edition))];
-
+// goto game jam (voting game) y que al hacer click en uno de ellos te lleve a la pagina de la edición.
+export const EditionPage = () => {
     return (
-        <div className="edition-page">
-            <MainTitle title="Ediciones" />
-            {editions.map((edition) => (
-                <button
-                    key={edition}
-                    onClick={() => history.push(`/editions/${edition}`)}
-                >
-                    {edition}
-                </button>
-            ))}
-        </div>
+        <>
+            <MainTitle title={"Ediciones"} />
+        </>
     );
 };

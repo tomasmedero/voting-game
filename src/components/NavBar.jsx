@@ -42,9 +42,9 @@ export const NavBar = () => {
                 <li>
                     <NavLink
                         className="hover:bg-green-700 hover:text-black transition-all hover:p-3 rounded-md"
-                        to="/editions"
+                        to="/edition"
                     >
-                        Ediciones(?)
+                        Ediciones
                     </NavLink>
                 </li>
             </ul>
