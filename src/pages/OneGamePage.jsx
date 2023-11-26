@@ -1,35 +1,45 @@
 import { useState, useEffect } from "react"
 import { useParams, Navigate, Link } from "react-router-dom"
 
+// ESTE COMPONENTE MUESTRA UN JUEGO
 export const OneGamePage = () => {
+    // Obtenemos el ID del juego de los parámetros de la ruta
     const { id } = useParams()
+    // Estos son los estados para los detalles del juego, el estado de carga y si debemos redirigir al usuario
     const [game, setGame] = useState({})
     const [isLoading, setIsLoading] = useState(true)
     const [shouldRedirect, setShouldRedirect] = useState(false)
-
+    // Este efecto se ejecuta cuando el componente se monta o cuando el ID del juego cambia
     useEffect(() => {
+        // Esta función obtiene los detalles del juego de la API
         const fetchGames = async () => {
             const response = await fetch(
                 `http://localhost:3000/api/games/${id}`
             )
             const data = await response.json()
+            // Actualizamos el estado con los detalles del juego obtenidos y establecemos isLoading en false
             setGame(data)
             setIsLoading(false)
         }
+        // Llamamos a la función para obtener los detalles del juego
         fetchGames()
     }, [id])
 
+    // Esta función maneja la eliminación del juego
     const handleDelete = () => {
+        // Confirmamos con el usuario si realmente quiere eliminar el juego
         if (
             window.confirm(
                 "¿Estás seguro que deseas eliminar este juego? Esta acción no se puede deshacer"
             )
         ) {
+            // Si el usuario confirma, hacemos una solicitud DELETE a la API para eliminar el juego
             fetch(`http://localhost:3000/api/games/`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                 },
+                // Pasamos el ID del juego en el cuerpo de la solicitud
                 body: JSON.stringify({ id: id }),
             })
                 .then((response) => response.json())
@@ -47,6 +57,7 @@ export const OneGamePage = () => {
         return <Navigate to="/games" />
     }
 
+    // Extraemos los detalles del juego del estado
     const { name, genre, edition } = game
 
     return (

@@ -1,20 +1,27 @@
-import { useState, useEffect } from "react";
-import { MainTitle } from "../components";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { MainTitle } from "../components"
+import { Link } from "react-router-dom"
 
+// ESTE COMPONENTE MUESTRA UNA LISTA DE JUEGOS
 export const GamesPage = () => {
-    const [games, setGames] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    // Estos son los estados para la lista de juegos y el estado de carga
+    const [games, setGames] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
+    // Este efecto se ejecuta cuando el componente se monta
     useEffect(() => {
+        // Esta función obtiene la lista de juegos de la API mediante un fetch
         const fetchGames = async () => {
-            const response = await fetch("http://localhost:3000/api/games");
-            const data = await response.json();
-            setGames(data);
-            setIsLoading(false);
-        };
-        fetchGames();
-    }, [games]);
+            const response = await fetch("http://localhost:3000/api/games")
+            const data = await response.json()
+            // Actualizamos el estado con los juegos obtenidos y establecemos isLoading en false
+            setGames(data)
+            setIsLoading(false)
+        }
+        // Llamamos a la función para obtener los juegos
+        fetchGames()
+        // Este efecto se ejecuta cada vez que el estado games cambia
+    }, [games])
 
     return (
         <>
@@ -59,5 +66,5 @@ export const GamesPage = () => {
                 </div>
             </div>
         </>
-    );
-};
+    )
+}

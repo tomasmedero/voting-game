@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react"
 import { MainTitle } from "../components"
 import { Link } from "react-router-dom"
-
+// ESTE COMPONENTE MUESTRA UNA LISTA DE JUECES
 export const JudgesPage = () => {
+    // Estos son los estados para la lista de jueces y el estado de carga
     const [judges, setJudges] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
+    // Este efecto se ejecuta cuando el componente se monta
     useEffect(() => {
+        // Esta función obtiene la lista de jueces de la API
         const fetchGames = async () => {
             const response = await fetch("http://localhost:3000/api/judges")
             const data = await response.json()
+            // Actualizamos el estado con los jueces obtenidos y establecemos isLoading en false
             setJudges(data)
             setIsLoading(false)
         }
+        // Llamamos a la función para obtener los jueces
         fetchGames()
+        // Este efecto se ejecuta solo cuando el componente se monta
     }, [])
 
     return (

@@ -2,12 +2,15 @@ import { useState } from "react"
 import { MainTitle } from "../components"
 import { Navigate } from "react-router-dom"
 
+// Este componente permite al usuario agregar un nuevo juego
 export const AddNewGame = () => {
+    // Estos son los estados para los campos del formulario
     const [name, setName] = useState("")
     const [genre, setGenre] = useState("")
     const [edition, setEdition] = useState("")
+    // Este estado se utiliza para redirigir al usuario después de que se ha agregado un juego
     const [shouldRedirect, setShouldRedirect] = useState(false)
-
+    // Estas funciones manejan los cambios en los campos del formulario
     const handleNameChange = (e) => {
         setName(e.target.value)
     }
@@ -19,16 +22,17 @@ export const AddNewGame = () => {
     const handleEditionChange = (e) => {
         setEdition(e.target.value)
     }
-
+    // Esta función maneja el envío del formulario
     const handleSubmit = (e) => {
+        // Previene la recarga de la página al enviar el formulario
         e.preventDefault()
-
+        // Creamos un objeto con los datos del juego
         const game = {
             name: name,
             genre: genre,
             edition: edition,
         }
-
+        // Hacemos una solicitud POST a la API para agregar el juego
         fetch("http://localhost:3000/api/games", {
             method: "POST",
             headers: {
@@ -36,12 +40,16 @@ export const AddNewGame = () => {
             },
             body: JSON.stringify(game),
         })
+            // Convertimos la respuesta a JSON
             .then((response) => response.json())
             .then(() => {
+                // Imprimimos un mensaje de éxito en la consola
                 console.log("Juego agregado con éxito")
+                // Cambiamos el estado para redirigir al usuario
                 setShouldRedirect(true)
             })
             .catch((error) => {
+                // Imprimimos cualquier error en la consola
                 console.error("Error:", error)
             })
     }

@@ -2,8 +2,11 @@ import { useState, useEffect } from "react"
 import { MainTitle } from "../components"
 import { useParams, Navigate } from "react-router-dom"
 
+// ESTE COMPONENTE PERMITE ACTUALIZAR UN JUEGO
 export const UpdateGamePage = () => {
+    // Obtenemos el ID del juego de los parámetros de la ruta
     const { id } = useParams()
+    // Este es el estado para los datos del juego
     const [gameData, setGameData] = useState({
         id: "",
         name: "",
@@ -11,12 +14,15 @@ export const UpdateGamePage = () => {
         edition: "",
     })
 
+    // Este efecto se ejecuta cuando el componente se monta o cuando el ID del juego cambia
     useEffect(() => {
+        // Esta función obtiene los detalles del juego de la API
         const fetchGames = async () => {
             const response = await fetch(
                 `http://localhost:3000/api/games/${id}`
             )
             const data = await response.json()
+            // Actualizamos el estado con los detalles del juego obtenidos
             setGameData({
                 id: id,
                 name: data.name,
@@ -24,30 +30,40 @@ export const UpdateGamePage = () => {
                 edition: data.edition,
             })
         }
+        // Llamamos a la función para obtener los detalles del juego
         fetchGames()
     }, [id])
 
+    // Esta función maneja los cambios en los campos del formulario
     const handleChange = (e) => {
+        // Actualizamos el estado con el valor del campo que cambió
         setGameData({ ...gameData, [e.target.name]: e.target.value })
     }
 
+    // Este es el estado para determinar si debemos redirigir al usuario
     const [shouldRedirect, setShouldRedirect] = useState(false)
 
+    // Esta función maneja el envío del formulario
     const handleSubmit = async (e) => {
+        // Prevenimos la recarga de la página
         e.preventDefault()
+        // Hacemos una solicitud PUT a la API para actualizar los detalles del juego
+
         const response = await fetch(`http://localhost:3000/api/games`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
+            // Pasamos los datos del juego en el cuerpo de la solicitud
             body: JSON.stringify(gameData),
         })
+        // Si la respuesta es exitosa, mostramos un mensaje en la consola y redirigimos al usuario a la página de juegos
         if (response.ok) {
             console.log("Juego actualizado correctamente")
             setShouldRedirect(true)
         } else {
+            // Si hubo un error, lo mostramos en la consola
             console.error("Error al actualizar el juego")
-            //Ponele un error, si queres podemos hacer el sweetalert2
         }
     }
     if (shouldRedirect) {
