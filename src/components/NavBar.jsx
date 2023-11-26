@@ -1,19 +1,27 @@
 import { useEffect, useRef, useState } from "react"
 import { NavLink } from "react-router-dom"
 
+// LÓGICA PARA EL DROPDOWN DEL NAVBAR
 export const NavBar = () => {
+    // Este es el estado para determinar si el perfil está abierto
     const [isOpenProfile, setIsOpenProfile] = useState(false)
+    // Esta referencia se usa para detectar clics fuera del perfil
     const dropdownRef = useRef(null)
 
+    // Esta función cambia el estado de isOpenProfile
     const toggleDropdownProfile = () => {
         setIsOpenProfile(!isOpenProfile)
     }
+    // Esta función cierra el perfil
     const closeDropdownProfile = () => {
         setIsOpenProfile(false)
     }
 
+    // Este efecto se ejecuta cuando el componente se monta
     useEffect(() => {
+        // Esta función se ejecuta cuando se hace clic fuera del perfil
         const handleClickOutside = (event) => {
+            // Si se hizo clic fuera del perfil, cerramos el perfil
             if (
                 dropdownRef.current &&
                 !dropdownRef.current.contains(event.target)
@@ -22,11 +30,15 @@ export const NavBar = () => {
             }
         }
 
+        // Agregamos un escuchador de eventos para detectar clics fuera del perfil
         document.addEventListener("mousedown", handleClickOutside)
 
+        // Retornamos una función de limpieza que se ejecuta cuando el componente se desmonta
         return () => {
+            // Eliminamos el escuchador de eventos
             document.removeEventListener("mousedown", handleClickOutside)
         }
+        // Este efecto no tiene dependencias, por lo que solo se ejecuta una vez
     }, [])
     return (
         <nav className="flex justify-between px-10 py-3 font-bold bg-black text-white">
