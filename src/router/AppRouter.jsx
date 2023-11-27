@@ -1,39 +1,34 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import {
-    HomePage,
-    GamesPage,
-    JudgesPage,
-    OneGamePage,
-    AddNewGame,
-    OneJudgePage,
-    UpdateGamePage,
-} from "../pages"
-import { NavBar, FooterComponent } from "../components"
+import { VotingRoutes } from "./VotingRoutes"
+import { AuthRoutes } from "../auth/routes/AuthRoutes"
 
 export const AppRouter = () => {
-    return (
-        <div className="flex flex-col min-h-screen">
-            <NavBar />
-            <div className="flex-grow">
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/games" element={<GamesPage />} />
-                    <Route path="/games/new" element={<AddNewGame />} />
-                    <Route
-                        path="/games/update/:id"
-                        element={<UpdateGamePage />}
-                    />
-                    <Route path="/games/:id" element={<OneGamePage />} />
-                    <Route path="/judges" element={<JudgesPage />} />
-                    <Route
-                        path="/judges/judge/:id/:name"
-                        element={<OneJudgePage />}
-                    />
+    const status = "authenticated"
 
-                    <Route path="/*" element={<Navigate to="/" />} />
-                </Routes>
-            </div>
-            <FooterComponent />
-        </div>
+    return (
+        <>
+            {status === "authenticatede" ? (
+                <>
+                    <div>
+                        <Routes>
+                            <Route path="/*" element={<VotingRoutes />} />
+                            <Route path="/*" element={<Navigate to="/" />} />
+                            <Route
+                                path="/auth/*"
+                                element={<Navigate to="/" />}
+                            />
+                        </Routes>
+                    </div>
+                </>
+            ) : (
+                <div>
+                    <Routes>
+                        <Route path="/*" element={<VotingRoutes />} />
+                        <Route path="/auth/*" element={<AuthRoutes />} />
+                        <Route path="/*" element={<Navigate to="/" />} />
+                    </Routes>
+                </div>
+            )}
+        </>
     )
 }
