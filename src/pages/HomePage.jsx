@@ -1,4 +1,4 @@
-import { MainTitle } from "../components";
+import { MainTitle } from "../components"
 
 export const HomePage = () => {
     return (
@@ -23,5 +23,5 @@ export const HomePage = () => {
                 cuenta y cada idea se convierte en diversión interactiva!
             </p>
         </>
-    );
-};
+    )
+}

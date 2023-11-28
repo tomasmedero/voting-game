@@ -9,6 +9,7 @@ import {
     UpdateGamePage,
 } from "../pages"
 import { NavBar, FooterComponent } from "../components"
+import { LoginPage } from "../auth/pages"
 
 export const VotingRoutes = () => {
     return (
@@ -31,6 +32,7 @@ export const VotingRoutes = () => {
                             element={<OneJudgePage />}
                         />
 
+                        <Route path="/auth/login" element={<LoginPage />} />
                         <Route path="/*" element={<Navigate to="/" />} />
                     </Routes>
                 </div>

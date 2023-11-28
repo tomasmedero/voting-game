@@ -7,16 +7,16 @@ export const AppRouter = () => {
 
     return (
         <>
-            {status === "authenticatede" ? (
+            {status === "authenticated" ? (
                 <>
                     <div>
                         <Routes>
                             <Route path="/*" element={<VotingRoutes />} />
                             <Route path="/*" element={<Navigate to="/" />} />
-                            <Route
+                            {/* <Route
                                 path="/auth/*"
                                 element={<Navigate to="/" />}
-                            />
+                            /> */}
                         </Routes>
                     </div>
                 </>
@@ -25,7 +25,7 @@ export const AppRouter = () => {
                     <Routes>
                         <Route path="/*" element={<VotingRoutes />} />
                         <Route path="/auth/*" element={<AuthRoutes />} />
-                        <Route path="/*" element={<Navigate to="/" />} />
+                        {/* <Route path="/*" element={<Navigate to="/" />} /> */}
                     </Routes>
                 </div>
             )}

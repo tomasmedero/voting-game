@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { CookiesProvider, useCookies } from "react-cookie"
 import { NavLink, Link } from "react-router-dom"
 
 // LÓGICA PARA EL DROPDOWN DEL NAVBAR
@@ -16,7 +17,8 @@ export const NavBar = () => {
     const closeDropdownProfile = () => {
         setIsOpenProfile(false)
     }
-    const status = "authenticated"
+
+    const [cookies] = useCookies(["token"])
 
     // Este efecto se ejecuta cuando el componente se monta
     useEffect(() => {
@@ -55,66 +57,85 @@ export const NavBar = () => {
                         Inicio
                     </NavLink>
                 </li>
-                <li>
-                    <NavLink
-                        className="hover:bg-green-700 hover:text-black transition-all hover:p-3 rounded-md"
-                        to="/games"
-                    >
-                        Juegos
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink
-                        className="hover:bg-green-700 hover:text-black transition-all hover:p-3 rounded-md"
-                        to="/judges"
-                    >
-                        Jueces
-                    </NavLink>
-                </li>
-
-                {status === "authenticated" ? (
-                    <div
-                        className="relative inline-block text-left"
-                        ref={dropdownRef}
-                    >
-                        <div>
-                            <button
-                                onClick={toggleDropdownProfile}
-                                className=" flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300"
-                            >
-                                <img
-                                    className="w-8 h-8 rounded-full"
-                                    src="/default-avatar.png"
-                                    alt="Avatar"
-                                />
-                            </button>
-                        </div>
-
-                        {isOpenProfile && (
-                            <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                                <div
-                                    className="py-1"
-                                    role="menu"
-                                    aria-orientation="vertical"
-                                    aria-labelledby="options-menu"
+                <CookiesProvider>
+                    {cookies.token ? (
+                        <>
+                            <li>
+                                <NavLink
+                                    className="hover:bg-green-700 hover:text-black transition-all hover:p-3 rounded-md"
+                                    to="/games"
                                 >
-                                    <a
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                        role="menuitem"
+                                    Juegos
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    className="hover:bg-green-700 hover:text-black transition-all hover:p-3 rounded-md"
+                                    to="/judges"
+                                >
+                                    Jueces
+                                </NavLink>
+                            </li>
+
+                            <div
+                                className="relative inline-block text-left"
+                                ref={dropdownRef}
+                            >
+                                <div>
+                                    <button
+                                        onClick={toggleDropdownProfile}
+                                        className=" flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300"
                                     >
-                                        Salir
-                                    </a>
+                                        <img
+                                            className="w-8 h-8 rounded-full"
+                                            src="/default-avatar.png"
+                                            alt="Avatar"
+                                        />
+                                    </button>
                                 </div>
+
+                                {isOpenProfile && (
+                                    <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                                        <div
+                                            className="py-1"
+                                            role="menu"
+                                            aria-orientation="vertical"
+                                            aria-labelledby="options-menu"
+                                        >
+                                            <div
+                                                onClick={() => {
+                                                    // Make a request to your server-side logout endpoint
+                                                    fetch(
+                                                        "http://localhost:3000/api/auth/logout",
+                                                        {
+                                                            method: "POST",
+                                                            credentials:
+                                                                "include", // Include cookies
+                                                        }
+                                                    ).then(() => {
+                                                        // After the user is logged out, redirect to the login page
+                                                        window.location.href =
+                                                            "/auth/login"
+                                                    })
+                                                }}
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                                role="menuitem"
+                                            >
+                                                Salir
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
-                ) : (
-                    <Link to="/auth/login">
-                        <button className="mt-2 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
-                            Ingresar
-                        </button>
-                    </Link>
-                )}
+                        </>
+                    ) : (
+                        <Link to="/auth/login">
+                            <button className="mt-2 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+                                Ingresar
+                            </button>
+                        </Link>
+                    )}
+                </CookiesProvider>
             </ul>
         </nav>
     )

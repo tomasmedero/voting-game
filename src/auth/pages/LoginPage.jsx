@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { useState } from "react"
+import { useCookies } from "react-cookie"
 
 export const LoginPage = () => {
     const {
@@ -10,13 +11,16 @@ export const LoginPage = () => {
     } = useForm({
         criteriaMode: "all",
     })
+    const [setCookie] = useCookies(["token"])
 
-    const [autenticating, setAutenticating] = useState(false)
+    const [autenticating] = useState(false)
+
+    const navigate = useNavigate()
 
     const onSubmit = (data, e) => {
         e.preventDefault()
         try {
-            fetch("http://localhost:3000/users/login", {
+            fetch("http://localhost:3000/api/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -25,21 +29,21 @@ export const LoginPage = () => {
             })
                 // Convertimos la respuesta a JSON
                 .then((response) => response.json())
-                .then(() => {
-                    // Imprimimos un mensaje de éxito en la consola
-                    console.log("Usuario logueado con éxito")
+                .then((data) => {
+                    setCookie("token", data.token)
+
+                    navigate("/")
+
+                    console.log(data)
                 })
         } catch {
             console.log("Hubo un ERRRORRRRR")
         }
-
-        console.log(data)
-        setAutenticating(true)
     }
 
     return (
         <>
-            <div className="bg-slate-700 relative flex flex-col justify-center min-h-screen overflow-hidden">
+            <div className="bg-slate-700 relative flex flex-col justify-center min-h-[75vh] overflow-hidden">
                 <div className="bg-stone-100 w-full p-6 m-auto rounded-md shadow-xl lg:max-w-xl">
                     <h1 className="text-3xl font-semibold text-center text-purple-700 uppercase">
                         Iniciar Sesion
@@ -109,23 +113,10 @@ export const LoginPage = () => {
                                 type="submit"
                                 className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
                             >
-                                Login
+                                Iniciar sesión
                             </button>
                         </div>
                     </form>
-
-                    {/* Barra separadora de registrarte */}
-
-                    <p className="mt-8 text-xs font-light text-center text-gray-700">
-                        {" "}
-                        No tienes una cuenta?{" "}
-                        <Link
-                            to="/auth/register"
-                            className="font-medium text-purple-600 hover:underline"
-                        >
-                            Registrate{" "}
-                        </Link>
-                    </p>
                 </div>
             </div>
         </>
