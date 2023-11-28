@@ -7,7 +7,7 @@ export const OneJudgePage = () => {
     // Obtenemos el ID y el nombre del juez de los parámetros de la ruta
     const { id, name } = useParams()
     // Estos son los estados para los juegos y los votos del juez
-    const [games, setGames] = useState([])
+    const [votedGames, setVotedGames] = useState([])
     const [votes, setVotes] = useState([])
 
     // Este efecto se ejecuta cuando el componente se monta
@@ -31,7 +31,7 @@ export const OneJudgePage = () => {
 
             // Esperamos a que todas las solicitudes se completen y luego actualizamos el estado con los juegos obtenidos
             const gamesFetch = await Promise.all(gamePromises)
-            setGames(gamesFetch)
+            setVotedGames(gamesFetch)
 
             // Para cada voto, calculamos la puntuación promedio y guardamos el ID del juego
             const votesPromises = dataJudgeVotes.map(async (vote) => {
@@ -57,9 +57,8 @@ export const OneJudgePage = () => {
         // Llamamos a la función para obtener los votos del juez
         fetchVote()
     }, [id])
-
     // Si los juegos aún no se han cargado, mostramos un mensaje de carga
-    if (!games) {
+    if (!votedGames) {
         return <span className="text-3xl">Estoy cargando...</span>
     }
 
@@ -67,15 +66,15 @@ export const OneJudgePage = () => {
         <>
             <MainTitle title={`Voto del Juez ${name}`} />
             <div className="flex">
-                {games.map((game) => {
-                    const vote = votes.find((v) => v.gameId === game._id)
+                {votedGames.map((votedGame) => {
+                    const vote = votes.find((v) => v.gameId === votedGame._id)
                     return (
                         <div
-                            key={game._id}
+                            key={votedGame._id}
                             className="text-center w-[50%] mx-auto"
                         >
                             <p className="text-3xl font-bold mb-2">
-                                {game.name}
+                                {votedGame.name}
                             </p>
                             <p>Promedio Voto :{vote.totalVotes} </p>
                         </div>

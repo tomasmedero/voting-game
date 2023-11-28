@@ -26,30 +26,31 @@ export const OneGamePage = () => {
     }, [id])
 
     // Esta función maneja la eliminación del juego
+
     const handleDelete = () => {
         // Confirmamos con el usuario si realmente quiere eliminar el juego
-        if (
+
+        // CONDICIONAL DE REACT
+        {
             window.confirm(
                 "¿Estás seguro que deseas eliminar este juego? Esta acción no se puede deshacer"
-            )
-        ) {
-            // Si el usuario confirma, hacemos una solicitud DELETE a la API para eliminar el juego
-            fetch(`http://localhost:3000/api/games/`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                // Pasamos el ID del juego en el cuerpo de la solicitud
-                body: JSON.stringify({ id: id }),
-            })
-                .then((response) => response.json())
-                .then(() => {
-                    console.log("El juego ha sido eliminado correctamente")
-                    setShouldRedirect(true)
+            ) &&
+                fetch(`http://localhost:3000/api/games/`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    // Pasamos el ID del juego en el cuerpo de la solicitud
+                    body: JSON.stringify({ id }),
                 })
-                .catch((error) => {
-                    console.error("Error:", error)
-                })
+                    .then((response) => response.json())
+                    .then(() => {
+                        console.log("El juego ha sido eliminado correctamente")
+                        setShouldRedirect(true)
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error)
+                    })
         }
     }
 
@@ -58,6 +59,7 @@ export const OneGamePage = () => {
     }
 
     // Extraemos los detalles del juego del estado
+    // Par AHORRAR escribir de más oka
     const { name, genre, edition } = game
 
     return (

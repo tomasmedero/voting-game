@@ -5,13 +5,22 @@ import { useCookies } from "react-cookie"
 
 export const LoginPage = () => {
     const {
+        // El register se llama para ponerlo dentro del input, para registrar cada ingreso de datos
         register,
+        // handleSubmit es obligatorio para el useForm, cuando tengas el onSubmit, dentro
+        // mete el handleSubmit DENTRO con el onSubmit
         handleSubmit,
         formState: { errors },
     } = useForm({
+        // Esto es un hook creado por la comunidad para el manejo de formularios
+        // El useForm podes configurarle dentro del criteriaMODE que te muestre solo el primer error
+        // o todos los errores
+        // Lo uso para configurar los errores que haya en el formulario
+        // Como se usa?: Se usa para cualquier condición del formulario, en este caso para los errores
         criteriaMode: "all",
     })
-    const [setCookie] = useCookies(["token"])
+    // eslint-disable-next-line no-unused-vars
+    const [cookies, setCookie] = useCookies(["token"])
 
     const [autenticating] = useState(false)
 
@@ -37,7 +46,7 @@ export const LoginPage = () => {
                     console.log(data)
                 })
         } catch {
-            console.log("Hubo un ERRRORRRRR")
+            console.log("Hubo un error")
         }
     }
 
@@ -67,6 +76,9 @@ export const LoginPage = () => {
                                 {...register("email", {
                                     required: "Este campo es requerido",
                                     pattern: {
+                                        // Esto es un REGEXP
+                                        // Según la documentación es necesario
+                                        // REGULAR EXPRESSION, expresion regular
                                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                         message: "Ingrese un email válido",
                                     },
@@ -100,6 +112,7 @@ export const LoginPage = () => {
                                 })}
                                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
+                            {/* Renderizado condicional */}
                             {errors.password && (
                                 <span className="text-red-700">
                                     {errors.password.message}

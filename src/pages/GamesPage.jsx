@@ -5,6 +5,8 @@ import { Link } from "react-router-dom"
 // ESTE COMPONENTE MUESTRA UNA LISTA DE JUEGOS
 export const GamesPage = () => {
     // Estos son los estados para la lista de juegos y el estado de carga
+    // Al arrancar la aplicación se genera la constante games como array vacío,
+    // setGames se utiliza ÚNICAMENTE para SETEAR la variable games (un setter)
     const [games, setGames] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
@@ -27,10 +29,12 @@ export const GamesPage = () => {
         <>
             <MainTitle title="Juegos" />
             <div className="flex flex-col items-center">
+                {/* Expresion de condicional */}
                 {isLoading && (
                     <span className="text-3xl">Estoy cargando...</span>
                 )}
                 <ul className="mx-auto max-w-md divide-y divide-gray-200 dark:divide-gray-700 m-16">
+                    {/* La fun */}
                     {games.map((game) => (
                         <li
                             className="pb-3 sm:pb-4"

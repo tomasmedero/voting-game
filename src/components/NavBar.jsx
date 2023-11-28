@@ -43,6 +43,7 @@ export const NavBar = () => {
         }
         // Este efecto no tiene dependencias, por lo que solo se ejecuta una vez
     }, [])
+
     return (
         <nav className="flex justify-between px-10 py-3 font-bold bg-black text-white">
             <div className="font-bold">

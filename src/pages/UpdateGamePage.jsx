@@ -24,7 +24,7 @@ export const UpdateGamePage = () => {
             const data = await response.json()
             // Actualizamos el estado con los detalles del juego obtenidos
             setGameData({
-                id: id,
+                id,
                 name: data.name,
                 genre: data.genre,
                 edition: data.edition,
